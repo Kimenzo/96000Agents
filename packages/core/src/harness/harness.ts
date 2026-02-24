@@ -520,7 +520,7 @@ export class Harness<TState extends HarnessStateSchema = HarnessStateSchema> {
     const thread: HarnessThread = {
       id: this.generateId(),
       resourceId: this.resourceId,
-      title: title || 'New Thread',
+      title: title || '',
       createdAt: now,
       updatedAt: now,
     };
