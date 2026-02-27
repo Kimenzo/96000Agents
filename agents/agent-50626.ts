@@ -1,0 +1,8 @@
+import { Agent } from '@mastra/core/agent';
+
+export const agent50626 = new Agent({
+  id: 'agent-50626',
+  name: 'Agent 50626',
+  instructions: 'Awaiting skill assignment.',
+  model: 'openai/gpt-4o-mini',
+});
