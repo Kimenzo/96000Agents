@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Open Agent by Number",
+      "type": "shell",
+      "command": "code",
+      "args": ["${workspaceFolder}/agents/agent-${input:agentNumber}.ts"],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "never"
+      }
+    },
+    {
+      "label": "Build (Turbo)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["build"],
+      "group": "build",
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "Test (Fast)",
+      "type": "shell", 
+      "command": "pnpm",
+      "args": ["test", "--", "--reporter=dot"],
+      "group": "test",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "agentNumber",
+      "type": "promptString",
+      "description": "Agent number (e.g., 00001, 12345, 96000)"
+    }
+  ]
+}

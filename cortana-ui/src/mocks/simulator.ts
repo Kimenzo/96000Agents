@@ -10,12 +10,19 @@ export function startSimulator(): () => void {
   }
 
   const verbs = ['Synthesizing', 'Optimizing', 'Re-routing', 'Analyzing', 'Resolving', 'Transmitting'];
-  const nouns = ['packet flux', 'quantum coherence', 'subnet density', 'logic gate', 'heuristic pathway', 'neural drift'];
+  const nouns = [
+    'packet flux',
+    'quantum coherence',
+    'subnet density',
+    'logic gate',
+    'heuristic pathway',
+    'neural drift',
+  ];
 
   intervalId = setInterval(() => {
     const isError = Math.random() > 0.96;
     const isWarn = Math.random() > 0.85;
-    
+
     const verb = verbs[Math.floor(Math.random() * verbs.length)];
     const noun = nouns[Math.floor(Math.random() * nouns.length)];
 
@@ -34,15 +41,15 @@ export function startSimulator(): () => void {
       id: `log-${++logCounter}`,
       msg,
       type,
-      time: Date.now()
+      time: Date.now(),
     });
 
     const currentMetrics = useStore.getState().metrics;
-    
+
     // random metric updates
     useStore.getState().updateMetrics({
       processing: Math.floor(75000 + Math.random() * 25000),
-      violations: isError ? currentMetrics.violations + 1 : currentMetrics.violations
+      violations: isError ? currentMetrics.violations + 1 : currentMetrics.violations,
     });
   }, 400); // Fast log stream
 

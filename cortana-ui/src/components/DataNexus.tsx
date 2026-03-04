@@ -21,7 +21,7 @@ export function DataNexus() {
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 10, 45);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
@@ -34,24 +34,24 @@ export function DataNexus() {
     const cSwarm = new Float32Array(AGENT_COUNT * 3);
     const cMatrix = new Float32Array(AGENT_COUNT * 3);
 
-    const gridSize = Math.ceil(Math.pow(AGENT_COUNT, 1/3));
+    const gridSize = Math.ceil(Math.pow(AGENT_COUNT, 1 / 3));
     const spacing = 0.55;
     const offset = (gridSize * spacing) / 2;
 
     for (let i = 0; i < AGENT_COUNT; i++) {
       const i3 = i * 3;
-      
+
       // Swarm (Golden ratio spherical distribution for elegance)
       const r = Math.pow(Math.random(), 0.5) * 28;
       const theta = i * Math.PI * (1 + Math.sqrt(5)); // Golden angle
-      const phi = Math.acos(1 - 2 * (i + 0.5) / AGENT_COUNT);
+      const phi = Math.acos(1 - (2 * (i + 0.5)) / AGENT_COUNT);
 
       pSwarm[i3] = r * Math.sin(phi) * Math.cos(theta);
-      pSwarm[i3 + 1] = (r * Math.sin(phi) * Math.sin(theta)) * 0.4; // Flatter disk
+      pSwarm[i3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.4; // Flatter disk
       pSwarm[i3 + 2] = r * Math.cos(phi);
 
       // Matrix (Crystalline flawless grid)
-      const x = (i % gridSize);
+      const x = i % gridSize;
       const y = Math.floor((i / gridSize) % gridSize);
       const z = Math.floor(i / (gridSize * gridSize));
 
@@ -59,16 +59,16 @@ export function DataNexus() {
       pMatrix[i3 + 1] = y * spacing - offset;
       pMatrix[i3 + 2] = z * spacing - offset;
 
-      // Colors 
+      // Colors
       // Swarm: gentle cyan to deep cerulean
-      cSwarm[i3] = 0.4 + Math.random() * 0.1;     // R
-      cSwarm[i3+1] = 0.7 + Math.random() * 0.3;   // G
-      cSwarm[i3+2] = 0.9 + Math.random() * 0.1;   // B
+      cSwarm[i3] = 0.4 + Math.random() * 0.1; // R
+      cSwarm[i3 + 1] = 0.7 + Math.random() * 0.3; // G
+      cSwarm[i3 + 2] = 0.9 + Math.random() * 0.1; // B
 
       // Matrix: pure crystalline frost
       cMatrix[i3] = 0.9;
-      cMatrix[i3+1] = 0.92;
-      cMatrix[i3+2] = 1.0;
+      cMatrix[i3 + 1] = 0.92;
+      cMatrix[i3 + 2] = 1.0;
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(pSwarm, 3));
@@ -80,32 +80,32 @@ export function DataNexus() {
       uniforms: {
         uLerp: { value: 0 },
         uTime: { value: 0 },
-        uDPixelRatio: { value: Math.min(window.devicePixelRatio, 2) }
+        uDPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
       },
       vertexShader: `
         uniform float uLerp;
         uniform float uTime;
         uniform float uDPixelRatio;
-        
+
         attribute vec3 position2;
         attribute vec3 color2;
-        
+
         varying vec3 vColor;
-        
+
         void main() {
           vec3 pos = mix(position, position2, uLerp);
           vColor = mix(color, color2, uLerp);
-          
+
           // Gentle oceanic breathing in swarm mode
           float drift = sin(uTime * 0.5 + pos.x) * 0.5 * (1.0 - uLerp);
           pos.y += drift;
-          
+
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-          
+
           // Keep points small and elegant
           gl_PointSize = (4.0 / -mvPosition.z) * (uDPixelRatio * 6.0);
           if (gl_PointSize < 1.0) gl_PointSize = 1.0;
-          
+
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -115,7 +115,7 @@ export function DataNexus() {
           // Render a smooth, anti-aliased circle
           float d = distance(gl_PointCoord, vec2(0.5));
           if (d > 0.45) discard;
-          
+
           float alpha = smoothstep(0.45, 0.2, d);
           gl_FragColor = vec4(vColor, alpha * 0.85); // Gentle transparency
         }
@@ -138,7 +138,7 @@ export function DataNexus() {
       const delta = (now - lastTime) / 1000; // seconds
       lastTime = now;
       elapsedTime += delta;
-      
+
       material.uniforms.uTime.value = elapsedTime;
 
       // Smooth interpolation for the structure transition
@@ -147,8 +147,12 @@ export function DataNexus() {
       // Rotation differs between the two states
       const swarmRotationSpeed = 0.05;
       const matrixRotationSpeed = 0.005;
-      const effectiveRotationSpeed = THREE.MathUtils.lerp(swarmRotationSpeed, matrixRotationSpeed, material.uniforms.uLerp.value);
-      
+      const effectiveRotationSpeed = THREE.MathUtils.lerp(
+        swarmRotationSpeed,
+        matrixRotationSpeed,
+        material.uniforms.uLerp.value,
+      );
+
       points.rotation.y += delta * effectiveRotationSpeed;
 
       renderer.render(scene, camera);
@@ -176,14 +180,14 @@ export function DataNexus() {
   }, []);
 
   return (
-    <div 
-      ref={containerRef} 
-      style={{ 
-        position: 'absolute', 
-        inset: 0, 
+    <div
+      ref={containerRef}
+      style={{
+        position: 'absolute',
+        inset: 0,
         zIndex: 1,
-        background: 'radial-gradient(circle at 50% 50%, #0c0c0e 0%, #030303 100%)' 
-      }} 
+        background: 'radial-gradient(circle at 50% 50%, #0c0c0e 0%, #030303 100%)',
+      }}
     />
   );
 }

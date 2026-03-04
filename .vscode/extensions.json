@@ -1,0 +1,46 @@
+{
+  // Recommended extensions for maximum performance on this monorepo
+  // Only lightweight, essential extensions - no bloat
+  "recommendations": [
+    // Essential formatters/linters (run on save, not realtime)
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // Git - lightweight
+    "eamodio.gitlens",
+
+    // TypeScript - built-in is sufficient, no extra TS extensions needed
+
+    // Copilot
+    "github.copilot",
+    "github.copilot-chat"
+  ],
+
+  // EXPLICITLY UNWANTED - These kill performance in large repos
+  "unwantedRecommendations": [
+    // Heavy extensions that scan all files
+    "streetsidesoftware.code-spell-checker",
+    "wayou.vscode-todo-highlight",
+    "gruntfuggly.todo-tree",
+
+    // Heavy import cost analyzers
+    "wix.vscode-import-cost",
+
+    // Heavy bracket/indent colorizers (built-in is better)
+    "coenraads.bracket-pair-colorizer",
+    "coenraads.bracket-pair-colorizer-2",
+
+    // Heavy file icon themes (use built-in or simple themes)
+    "pkief.material-icon-theme",
+    "vscode-icons-team.vscode-icons",
+
+    // Heavy real-time linters
+    "sonarsource.sonarlint-vscode",
+
+    // Heavy documentation generators
+    "mintlify.document",
+
+    // Tabnine/other AI that conflicts with Copilot
+    "tabnine.tabnine-vscode"
+  ]
+}

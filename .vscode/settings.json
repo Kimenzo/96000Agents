@@ -1,0 +1,302 @@
+{
+  // ============================================================================
+  // BRUTAL PERFORMANCE OPTIMIZATIONS FOR LARGE MONOREPO (96K+ FILES)
+  // Enterprise-grade settings used by big tech companies with massive codebases
+  // ============================================================================
+
+  // ============================================================================
+  // 1. FILE EXCLUSIONS - Hide heavy folders from VS Code entirely
+  // ============================================================================
+  "files.exclude": {
+    // Massive auto-generated agents folder (96K files)
+    "agents": true,
+    // Package manager caches
+    "**/.pnpm-store": true,
+    "**/node_modules/.cache": true,
+    // Build outputs
+    "**/dist": true,
+    "**/.turbo": true,
+    "**/coverage": true,
+    "**/.next": true,
+    "**/.nuxt": true,
+    "**/build": true,
+    "**/.output": true,
+    // Lock files clutter
+    "pnpm-lock.yaml": true,
+    // TypeScript build info
+    "**/*.tsbuildinfo": true,
+    // Test snapshots and caches
+    "**/__snapshots__": false,
+    "**/.vitest": true,
+    // Temp files
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+
+  // ============================================================================
+  // 2. SEARCH EXCLUSIONS - Prevent search from scanning heavy folders
+  // ============================================================================
+  "search.exclude": {
+    "agents": true,
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/dist": true,
+    "**/.turbo": true,
+    "**/coverage": true,
+    "**/pnpm-lock.yaml": true,
+    "**/.pnpm-store": true,
+    "**/*.min.js": true,
+    "**/*.map": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/.nuxt": true,
+    "**/.output": true,
+    "**/.vitest": true,
+    "**/examples": true
+  },
+  "search.followSymlinks": false,
+  "search.maxResults": 1000,
+  "search.smartCase": true,
+  "search.useIgnoreFiles": true,
+  "search.useGlobalIgnoreFiles": true,
+
+  // ============================================================================
+  // 3. FILE WATCHER - Critical for performance on Windows
+  // ============================================================================
+  "files.watcherExclude": {
+    "agents/**": true,
+    "**/node_modules/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/dist/**": true,
+    "**/.turbo/**": true,
+    "**/coverage/**": true,
+    "**/build/**": true,
+    "**/.next/**": true,
+    "**/.nuxt/**": true,
+    "**/.output/**": true,
+    "**/.pnpm-store/**": true,
+    "**/.vitest/**": true,
+    "**/examples/**": true
+  },
+  // Reduce polling frequency for remaining watched files
+  "files.watcherInclude": [],
+
+  // ============================================================================
+  // 4. TYPESCRIPT / JAVASCRIPT - Aggressive memory and scope limits
+  // ============================================================================
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsserver.maxTsServerMemory": 4096,
+  "typescript.tsserver.watchOptions": {
+    "watchFile": "useFsEventsOnParentDirectory",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriorityPolling",
+    "excludeDirectories": [
+      "agents",
+      "**/node_modules",
+      "**/dist",
+      "**/.turbo",
+      "**/coverage",
+      "**/examples"
+    ]
+  },
+  // Disable expensive auto-features
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.includePackageJsonAutoImports": "off",
+  "typescript.workspaceSymbols.scope": "currentProject",
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "typescript.surveys.enabled": false,
+  "typescript.enablePromptUseWorkspaceTsdk": false,
+  // Reduce diagnostic lag
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+
+  "javascript.suggest.autoImports": true,
+  "javascript.preferences.includePackageJsonAutoImports": "off",
+
+  // ============================================================================
+  // 5. GIT - Reduce git operations overhead
+  // ============================================================================
+  "git.enabled": true,
+  "git.autorefresh": false,
+  "git.autofetch": false,
+  "git.fetchOnPull": false,
+  "git.pruneOnFetch": false,
+  "git.confirmSync": false,
+  "git.decorations.enabled": false,
+  "git.blame.editorDecoration.enabled": false,
+  "git.timeline.showUncommitted": false,
+  "scm.diffDecorationsGutterVisibility": "hover",
+  "scm.diffDecorationsIgnoreTrimWhitespace": "true",
+
+  // ============================================================================
+  // 6. EDITOR PERFORMANCE - Reduce rendering and processing overhead
+  // ============================================================================
+  // Disable expensive visual features
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "none",
+  "editor.renderControlCharacters": false,
+  "editor.renderLineHighlight": "line",
+  "editor.occurrencesHighlight": "off",
+  "editor.selectionHighlight": false,
+  "editor.matchBrackets": "near",
+  "editor.folding": true,
+  "editor.foldingStrategy": "indentation",
+  "editor.showFoldingControls": "mouseover",
+  "editor.glyphMargin": false,
+  "editor.colorDecorators": false,
+  "editor.guides.indentation": false,
+  "editor.guides.bracketPairs": false,
+  "editor.guides.highlightActiveIndentation": false,
+  "editor.stickyScroll.enabled": false,
+
+  // Reduce hover/suggestion latency
+  "editor.hover.delay": 500,
+  "editor.quickSuggestionsDelay": 100,
+  "editor.suggest.showStatusBar": false,
+  "editor.suggest.preview": false,
+  "editor.suggest.shareSuggestSelections": false,
+  "editor.parameterHints.enabled": true,
+  "editor.inlayHints.enabled": "off",
+
+  // Optimize large files
+  "editor.largeFileOptimizations": true,
+  "editor.maxTokenizationLineLength": 5000,
+  "editor.wordBasedSuggestions": "off",
+
+  // Cursor and scrolling
+  "editor.cursorBlinking": "solid",
+  "editor.cursorSmoothCaretAnimation": "off",
+  "editor.smoothScrolling": false,
+
+  // Font rendering
+  "editor.fontLigatures": false,
+
+  // ============================================================================
+  // 7. WORKBENCH - Reduce UI overhead
+  // ============================================================================
+  "workbench.list.smoothScrolling": false,
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": true,
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 8,
+  "workbench.editor.limit.perEditorGroup": true,
+  "workbench.reduceMotion": "on",
+  "workbench.tree.renderIndentGuides": "none",
+  "workbench.tree.indent": 16,
+
+  // Disable startup overhead
+  "workbench.startupEditor": "none",
+  "workbench.tips.enabled": false,
+  "workbench.welcomePage.walkthroughs.openOnInstall": false,
+
+  // ============================================================================
+  // 8. EXPLORER - Reduce file tree overhead
+  // ============================================================================
+  "explorer.autoReveal": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.compactFolders": true,
+  "explorer.decorations.badges": false,
+  "explorer.decorations.colors": false,
+  "explorer.incrementalNaming": "smart",
+
+  // ============================================================================
+  // 9. TERMINAL - Optimize terminal performance
+  // ============================================================================
+  "terminal.integrated.smoothScrolling": false,
+  "terminal.integrated.gpuAcceleration": "on",
+  "terminal.integrated.scrollback": 1000,
+
+  // ============================================================================
+  // 10. EXTENSIONS - Disable heavy extension features
+  // ============================================================================
+  // ESLint - only validate on save, not on type
+  "eslint.run": "onSave",
+  "eslint.probe": ["javascript", "typescript", "javascriptreact", "typescriptreact"],
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+
+  // Prettier - only on save
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // Disable expensive code lens
+  "editor.codeLens": false,
+
+  // ============================================================================
+  // 11. TELEMETRY - Disable all telemetry
+  // ============================================================================
+  "telemetry.telemetryLevel": "off",
+  "redhat.telemetry.enabled": false,
+
+  // ============================================================================
+  // 12. FILES - Auto-save and encoding
+  // ============================================================================
+  "files.autoSave": "onFocusChange",
+  "files.autoSaveDelay": 1000,
+  "files.encoding": "utf8",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // ============================================================================
+  // 13. DEBUG - Reduce debug overhead when not debugging
+  // ============================================================================
+  "debug.console.wordWrap": false,
+  "debug.internalConsoleOptions": "neverOpen",
+  "debug.showBreakpointsInOverviewRuler": false,
+
+  // ============================================================================
+  // 14. WINDOW - Performance settings
+  // ============================================================================
+  "window.restoreWindows": "none",
+  "window.titleBarStyle": "native",
+
+  // ============================================================================
+  // 15. PROBLEMS PANEL - Limit problem visibility
+  // ============================================================================
+  "problems.decorations.enabled": false,
+  "problems.showCurrentInStatus": false,
+
+  // ============================================================================
+  // 16. BREADCRUMBS - Disable to reduce overhead
+  // ============================================================================
+  "breadcrumbs.enabled": false,
+
+  // ============================================================================
+  // 17. DIFF EDITOR - Optimize diff performance
+  // ============================================================================
+  "diffEditor.maxComputationTime": 0,
+  "diffEditor.ignoreTrimWhitespace": true,
+  "diffEditor.renderSideBySide": true,
+
+  // ============================================================================
+  // 18. NOTEBOOK - Disable if not using
+  // ============================================================================
+  "notebook.cellToolbarVisibility": "hover",
+  "notebook.compactView": true,
+  "notebook.consolidatedOutputButton": false,
+
+  // ============================================================================
+  // 19. OUTLINE - Disable outline for faster sidebar
+  // ============================================================================  
+  "outline.showVariables": false,
+  "outline.showTypeParameters": false,
+  "outline.showProperties": false,
+
+  // ============================================================================
+  // 20. COPILOT OPTIMIZATIONS (if using GitHub Copilot)
+  // ============================================================================
+  "github.copilot.editor.enableAutoCompletions": true,
+
+  // ============================================================================
+  // 21. MONOREPO-SPECIFIC: Limit TypeScript project scope
+  // ============================================================================
+  "typescript.tsserver.pluginPaths": [],
+  "typescript.referencesCodeLens.enabled": false,
+  "typescript.implementationsCodeLens.enabled": false
+}

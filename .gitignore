@@ -5,7 +5,11 @@ test-outputs/
 .DS_Store
 
 # IDE
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
 .idea/
 .history/
 .context/
