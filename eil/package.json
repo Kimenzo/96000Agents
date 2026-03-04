@@ -1,0 +1,39 @@
+{
+  "name": "@mastra/eil",
+  "version": "0.1.0",
+  "description": "EVO Intelligence Layer — Self-evolving multi-agent orchestration for 96,000 Mastra agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "boot": "node --loader ts-node/esm boot.ts",
+    "boot:dry": "node --loader ts-node/esm boot.ts --dry-run"
+  },
+  "keywords": [
+    "mastra",
+    "evo",
+    "multi-agent",
+    "evolution",
+    "optimization"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

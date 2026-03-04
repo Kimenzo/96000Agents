@@ -1,0 +1,6 @@
+pnpm boot:eil          # Full boot — starts 30-min evolution loop
+pnpm boot:eil:dry      # Scan + cluster + report, then exit
+pnpm boot:eil:status   # Initialize and print status JSON
+pnpm boot:eil:cycle    # Initialize, run one evolution cycle, exit
+pnpm test:eil          # Run 80 unit/integration tests
+pnpm build:eil         # Build to dist/

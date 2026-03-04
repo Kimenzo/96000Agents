@@ -1,6 +1,7 @@
 packages:
   - mastracode
   - docs
+  - eil
   - packages/_vendored/*
   - packages/*
   - deployers/*
